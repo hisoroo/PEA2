@@ -1,0 +1,32 @@
+# Plik konfiguracyjny dla eksperymentu TSP
+
+# Plik wyjściowy do zapisania wyników w formie tekstowej
+# (dla uproszczenia pliki .csv sa zapisywane pod nazwą output[N].csv, gdzie N to wielkość rozwiązywanego problemu)
+outputFile=output.txt
+
+# Plik wejściowy z macierzą odległości (opcjonalnie)
+# Jeśli nie jest pusty, zostanie wczytana macierz z pliku zamiast generowania
+inputFile=testData/matrix_11x11.txt
+
+# testData\matrix_11x11.txt
+
+# Liczba powtórzeń dla każdego rozmiaru problemu
+repetitions=100
+
+# Czy pokazywać pasek postępu w konsoli (1 - tak, 0 - nie)
+showProgressBar=1
+
+# Minimalny i maksymalny zakres odległości
+# (Używane, gdy generowana jest macierz)
+distanceMin=1
+distanceMax=100
+
+# Czy macierz odległości ma być symetryczna (1 - tak, 0 - nie)
+isSymmetric=1
+
+# Lista wartości N (ilość miast, format - NCities=n1,n2,n3,...)
+NCities=5,7,9,11,13,15,17
+
+# 5,7,9,11,13,15,17
+# 5,6,7,8,9,10,11
+
