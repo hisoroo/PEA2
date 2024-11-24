@@ -29,14 +29,14 @@ void Benchmark::runBenchmark(const Config &config)
         cout << "Wczytano macierz z pliku: " << config.inputFile << "\n";
         outputFile << "Wczytano macierz z pliku: " << config.inputFile << "\n";
 
-        // B&B BSF
-        auto startBFS = chrono::high_resolution_clock::now();
-        int BFSDistance = tsp.branchAndBoundBFS();
-        auto endBFS = chrono::high_resolution_clock::now();
-        chrono::duration<double, milli> durationBFS = endBFS - startBFS;
+        // B&B BEST FIRST SEARCH
+        auto startBF = chrono::high_resolution_clock::now();
+        int BFDistance = tsp.branchAndBoundBFS();
+        auto endBF = chrono::high_resolution_clock::now();
+        chrono::duration<double, milli> durationBF = endBF - startBF;
 
-        outputFile << "B&B BSF: " << BFSDistance << ", Czas: " << durationBFS.count() << " ms\n";
-        cout << "B&B BSF: " << BFSDistance << ", Czas: " << durationBFS.count() << " ms\n";
+        outputFile << "B&B BSF: " << BFDistance << ", Czas: " << durationBF.count() << " ms\n";
+        cout << "B&B BSF: " << BFDistance << ", Czas: " << durationBF.count() << " ms\n";
 
         // B&B DFS
         auto startDFS = chrono::high_resolution_clock::now();
@@ -48,13 +48,13 @@ void Benchmark::runBenchmark(const Config &config)
         cout << "B&B DFS: " << DFSDistance << ", Czas: " << durationDFS.count() << " ms\n";
 
         // B&B BFS
-        auto startBSF = chrono::high_resolution_clock::now();
-        int BSFDistance = tsp.breadthFirstSearch();
-        auto endBSF = chrono::high_resolution_clock::now();
-        chrono::duration<double, milli> durationBSF = endBSF - startBSF;
+        auto startBFS = chrono::high_resolution_clock::now();
+        int BFSDistance = tsp.breadthFirstSearch();
+        auto endBFS = chrono::high_resolution_clock::now();
+        chrono::duration<double, milli> durationBFS = endBFS - startBFS;
 
-        outputFile << "B&B BFS: " << BSFDistance << ", Czas: " << durationBSF.count() << " ms\n";
-        cout << "B&B BFS: " << BSFDistance << ", Czas: " << durationBSF.count() << " ms\n";
+        outputFile << "B&B BFS: " << BFSDistance << ", Czas: " << durationBFS.count() << " ms\n";
+        cout << "B&B BFS: " << BFSDistance << ", Czas: " << durationBFS.count() << " ms\n";
     }
     else
     {
@@ -74,9 +74,9 @@ void Benchmark::runBenchmark(const Config &config)
 
             csvFile << "Iteracja;B&B BSF(ms);B&B DFS(ms);B&B BFS(ms)\n";
 
-            double totalTimeBFS = 0.0;
+            double totalTimeBF = 0.0;
             double totalTimeDFS = 0.0;
-            double totalTimeBSF = 0.0;
+            double totalTimeBFS = 0.0;
 
             for (int i = 0; i < config.repetitions; ++i)
             {
@@ -101,12 +101,12 @@ void Benchmark::runBenchmark(const Config &config)
                     cout.flush();
                 }
 
-                // B&B BSF
-                auto startBFS = chrono::high_resolution_clock::now();
-                int BFSDistance = tsp.branchAndBoundBFS();
-                auto endBFS = chrono::high_resolution_clock::now();
-                chrono::duration<double, milli> durationBFS = endBFS - startBFS;
-                totalTimeBFS += durationBFS.count();
+                // B&B BEST FIRST SEARCH
+                auto startBF = chrono::high_resolution_clock::now();
+                int BFDistance = tsp.branchAndBoundBFS();
+                auto endBF = chrono::high_resolution_clock::now();
+                chrono::duration<double, milli> durationBF = endBF - startBF;
+                totalTimeBF += durationBF.count();
 
                 // B&B DFS
                 auto startDFS = chrono::high_resolution_clock::now();
@@ -116,24 +116,24 @@ void Benchmark::runBenchmark(const Config &config)
                 totalTimeDFS += durationDFS.count();
 
                 // B&B BFS
-                auto startBSF = chrono::high_resolution_clock::now();
-                int BSFDistance = tsp.breadthFirstSearch();
-                auto endBSF = chrono::high_resolution_clock::now();
-                chrono::duration<double, milli> durationBSF = endBSF - startBSF;
-                totalTimeBSF += durationBSF.count();
+                auto startBFS = chrono::high_resolution_clock::now();
+                int BFSDistance = tsp.breadthFirstSearch();
+                auto endBFS = chrono::high_resolution_clock::now();
+                chrono::duration<double, milli> durationBFS = endBFS - startBFS;
+                totalTimeBFS += durationBFS.count();
 
-                csvFile << (i + 1) << ";" << durationBFS.count() << ";" << durationDFS.count() << ";" << durationBSF.count() << "\n";
-                outputFile << "Iteracja " << i + 1 << ", BSF: " << BFSDistance << ", DFS: " << DFSDistance << ", BFS: " << BSFDistance << ", Czas BSF: " << durationBFS.count() << " ms, Czas DFS: " << durationDFS.count() << " ms, Czas BFS: " << durationBSF.count() << " ms\n";
+                csvFile << (i + 1) << ";" << durationBF.count() << ";" << durationDFS.count() << ";" << durationBFS.count() << "\n";
+                outputFile << "Iteracja " << i + 1 << ", BSF: " << BFDistance << ", DFS: " << DFSDistance << ", BFS: " << BFSDistance << ", Czas BSF: " << durationBF.count() << " ms, Czas DFS: " << durationDFS.count() << " ms, Czas BFS: " << durationBFS.count() << " ms\n";
                 outputFile << "-----------------------------\n";
             }
 
             csvFile.close();
 
-            double averageTimeBFS = totalTimeBFS / config.repetitions;
+            double averageTimeBF = totalTimeBF / config.repetitions;
             double averageTimeDFS = totalTimeDFS / config.repetitions;
-            double averageTimeBSF = totalTimeBSF / config.repetitions;
+            double averageTimeBSF = totalTimeBFS / config.repetitions;
 
-            cout << "\nŚredni czas dla algorytmu B&B BSF: " << averageTimeBFS << " ms";
+            cout << "\nŚredni czas dla algorytmu B&B BSF: " << averageTimeBF << " ms";
             cout << "\nŚredni czas dla algorytmu B&B DFS: " << averageTimeDFS << " ms";
             cout << "\nŚredni czas dla algorytmu B&B BFS: " << averageTimeBSF << " ms";
         }
